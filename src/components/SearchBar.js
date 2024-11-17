@@ -1,39 +1,34 @@
 import React, { useState, useContext } from 'react';
 import { MovieContext } from '../context/MovieContext';
 import { searchMovies } from '../services/api';
-import { TextField, Button } from '@mui/material';
+import './SearchBar.css';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const { setMovies, setLoading } = useContext(MovieContext);
 
   const handleSearch = async () => {
-    if (!query) {
-      alert("Please enter a search term");
-      return;
-    }
-
+    if (!query.trim()) return;
     setLoading(true);
     try {
-      const movies = await searchMovies(query);
-      setMovies(movies);
+      const results = await searchMovies(query);
+      setMovies(results);
     } catch (error) {
-      alert("Failed to fetch movies. Please try again.");
+      console.error('Error searching movies:', error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <TextField
-        label="Search Movies"
-        variant="outlined"
+    <div className="search-bar">
+      <input
+        type="text"
+        placeholder="Search movies..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        style={{ marginRight: '10px' }}
       />
-      <Button variant="contained" onClick={handleSearch}>Search</Button>
+      <button onClick={handleSearch}>Search</button>
     </div>
   );
 };

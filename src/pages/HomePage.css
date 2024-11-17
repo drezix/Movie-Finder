@@ -1,0 +1,22 @@
+/* Header (topo) */
+.header {
+    background-color: #654f66;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo {
+    height: 140px; 
+    width: auto; 
+    object-fit: contain; 
+  }
+  
+  .header .search-bar {
+    max-width: 400px;
+    width: 100%;
+  }
+  
