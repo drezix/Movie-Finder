@@ -5,17 +5,31 @@ import './SearchBar.css';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
-  const [error, setError] = useState(null); // Novo estado para mensagens de erro
+  const [error, setError] = useState(null);
   const { setMovies, setLoading } = useContext(MovieContext);
 
+  const validateInput = (input) => {
+    if (!input.trim()) {
+      return "Search term cannot be empty.";
+    }
+    if (input.trim().length < 3) {
+      return "Search term must be at least 3 characters long.";
+    }
+    if (/[^a-zA-Z0-9\s]/.test(input)) {
+      return "Search term contains invalid characters.";
+    }
+    return null;
+  };
+
   const handleSearch = async () => {
-    if (!query.trim()) {
-      setError("Please enter a valid search term.");
+    const validationError = validateInput(query);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     setLoading(true);
-    setError(null); // Resetar o erro antes de buscar
+    setError(null); 
     try {
       const results = await searchMovies(query);
       if (results.length === 0) {
@@ -37,7 +51,11 @@ const SearchBar = () => {
         type="text"
         placeholder="Search movies..."
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setError(null); // Limpar o erro ao digitar
+        }}
+        className={error ? 'input-error' : ''}
       />
       <button onClick={handleSearch}>Search</button>
       {error && <p className="error-message">{error}</p>} {/* Exibir erro */}
