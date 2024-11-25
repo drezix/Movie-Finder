@@ -5,16 +5,27 @@ import './SearchBar.css';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
+  const [error, setError] = useState(null); // Novo estado para mensagens de erro
   const { setMovies, setLoading } = useContext(MovieContext);
 
   const handleSearch = async () => {
-    if (!query.trim()) return;
+    if (!query.trim()) {
+      setError("Please enter a valid search term.");
+      return;
+    }
+
     setLoading(true);
+    setError(null); // Resetar o erro antes de buscar
     try {
       const results = await searchMovies(query);
-      setMovies(results);
+      if (results.length === 0) {
+        setError("No movies found for this query.");
+      } else {
+        setMovies(results);
+      }
     } catch (error) {
-      console.error('Error searching movies:', error);
+      setError("An error occurred while searching for movies. Please try again later.");
+      console.error("Error searching movies:", error);
     } finally {
       setLoading(false);
     }
@@ -29,6 +40,7 @@ const SearchBar = () => {
         onChange={(e) => setQuery(e.target.value)}
       />
       <button onClick={handleSearch}>Search</button>
+      {error && <p className="error-message">{error}</p>} {/* Exibir erro */}
     </div>
   );
 };
