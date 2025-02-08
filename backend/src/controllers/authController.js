@@ -9,3 +9,11 @@ exports.register = async (req, res) => {
   }
 };
 
+exports.login = async (req, res) => {
+  try {
+    const { user, token } = await authServices.loginUser(req.body);
+    return res.status(200).json({ user, token });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
