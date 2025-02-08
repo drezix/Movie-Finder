@@ -8,11 +8,30 @@
     padding: 10px 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+
+
+
   
   .logo {
     height: 140px; 
     width: auto; 
     object-fit: contain; 
+  }
+
+
+  .auth-button {
+    background-color: #007bff; /* Azul */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .auth-button:hover {
+    background-color: #0056b3; /* Azul mais escuro */
   }
   
   .header .search-bar {
