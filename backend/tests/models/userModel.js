@@ -1,4 +1,4 @@
-const { userModel } = require('../../src/models/User');
+const { userModel } = require('../../src/models/userModel');
 const { mongoose } = require('mongoose');
 const connectDB = require('../../src/config/db');
 
@@ -17,6 +17,8 @@ async function testUserModel() {
 
     const foundUser = await userModel.findOne({ email: 'andre@example.com' });
     console.log('User found:', foundUser);
+
+    debugger;
 
     await userModel.deleteOne({ email: 'andre@example.com' });
     console.log('User deleted successfully!');
