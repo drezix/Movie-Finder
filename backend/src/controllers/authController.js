@@ -25,3 +25,25 @@ exports.register = async (req, res) => {
     return res.status(500).json({ message: 'Error registering user' });
   }
 }
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await userModel.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid email' });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: 'Invalid password' });
+    }
+
+    const token = jwt.sign({ email: user.email, id: user._id }, process.env.SECRET, { expiresIn: '1h' });
+
+    return res.status(200).json({ user, token });
+  }
+  catch (error) {
+    return res.status(500).json({ message: 'Error logging in' });
+  }
+}
