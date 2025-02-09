@@ -6,12 +6,15 @@ import { CircularProgress } from "@mui/material";
 import "./HomePage.css";
 import logo from "../assets/moviefinderlogo.png";
 import RegisterModal from "../components/RegisterModal";
-import LoginModal from "../components/LoginModal"; // Importa o modal de login
+import LoginModal from "../components/LoginModal"; // Modal de login
+import AddMovieModal from "../components/AddMovieModal";  // Modal de Adicionar Filme
+import '../components/modal.css'; // Adicione o caminho correto para o seu arquivo CSS
 
 const HomePage = () => {
   const { movies, loading } = useContext(MovieContext);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);  // Estado para abrir o modal de adicionar filme
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -41,6 +44,8 @@ const HomePage = () => {
             <>
               <span className="username">Olá, {user}!</span>
               <button onClick={handleLogout} className="auth-button">Sair</button>
+              {/* Mostrar o botão de adicionar filme apenas se o usuário estiver logado */}
+              <button onClick={() => setIsAddMovieOpen(true)} className="auth-button add-movie-button">Inserir Filmes Favoritos</button>
             </>
           ) : (
             <>
@@ -56,8 +61,11 @@ const HomePage = () => {
         {loading ? <CircularProgress /> : movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
       </div>
 
+      {/* Modais */}
       {isRegisterOpen && <RegisterModal onClose={() => setIsRegisterOpen(false)} />}
       {isLoginOpen && <LoginModal onClose={() => setIsLoginOpen(false)} />}
+      {/* Modal de Adicionar Filme */}
+      {isAddMovieOpen && <AddMovieModal onClose={() => setIsAddMovieOpen(false)} />}
     </div>
   );
 };

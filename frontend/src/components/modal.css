@@ -1,0 +1,85 @@
+/* Estilos do Modal - Botões Ajustados */
+.modal-content {
+  /* ... (mantenha o restante dos estilos existentes) */
+  gap: 15px; /* Espaçamento uniforme entre os elementos */
+}
+
+/* Container para os botões */
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.add-movie-button {
+  padding: 8px 16px; /* Ajuste o padding para um tamanho menor */
+  font-size: 16px; /* Ajuste o tamanho da fonte, se necessário */
+  width: auto; 
+}
+
+/* Estilos base para todos os botões */
+button, .save-button {
+  padding: 12px 24px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* Botão primário (Salvar) */
+.save-button {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Botão secundário (Fechar) */
+button:not(.save-button) {
+  background-color:rgb(14, 106, 185);
+  color: white;
+}
+
+/* Hover states */
+.save-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+button:not(.save-button):hover {
+  background-color:rgb(0, 91, 160);
+  transform: translateY(-1px);
+}
+
+/* Ajuste para mobile */
+@media (max-width: 600px) {
+  .button-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .button-group button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+
+/* Melhorias nos campos do formulário */
+textarea, input {
+  margin-bottom: 10px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+textarea:focus, input:focus {
+  outline: 2px solid #007bff33;
+  border-color: #007bff;
+}
