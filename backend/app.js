@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors'); 
 const connectDB = require('./src/config/db');
 const authRoutes = require('./src/routes/authRoutes');
+const movieRoutes = require('./src/routes/movieRoutes');
 require('dotenv').config({ path: './backend/.env' });
 
 const app = express();
@@ -22,5 +23,6 @@ app.use(express.json());
 
 //--------------------------------------------AUTH-----------------------------------------------
 app.use('/auth', authRoutes);
+app.use('/movies', movieRoutes);
 
 module.exports = app;
