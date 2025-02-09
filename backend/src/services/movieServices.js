@@ -1,14 +1,15 @@
-const movieModel = require('../models/movieModel');
+const Movie = require('../models/movieModel');
 
-exports.insertMovie = async ({ title, director, year, genre, description }) => {
-    const existingMovie = await movieModel.findOne({
+exports.insertMovie = async ({ userId, title, director, year, genre, description }) => {
+    const existingMovie = await Movie.findOne({
+        userId,
         title,
         director,
         year,
         genre
     })
-    if (existingMovie) throw new Error('Movie already exists');
+    if (existingMovie) throw new Error('You have already added this movie');
     
-    const newMovie = new movieModel({ title, director, year, genre, description });
+    const newMovie = new Movie({ userId, title, director, year, genre, description });
     return newMovie.save();
 }
