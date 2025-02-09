@@ -10,6 +10,9 @@
   }
 
 
+.main-container {
+    padding: 20px;
+  }
 
   
   .logo {
@@ -32,6 +35,12 @@
   
   .auth-button:hover {
     background-color: #0056b3; /* Azul mais escuro */
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 10px; /* Ajusta o espaço entre os botões */
+    align-items: center;
   }
   
   .header .search-bar {

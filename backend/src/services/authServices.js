@@ -15,10 +15,9 @@ exports.registerUser = async ({ username, email, password, isAdmin = false }) =>
   return newUser.save();
 };
 
-exports.loginUser = async ({ username, password }) => {
-  const user = await userModel.findOne({ username });
-  if (!user) throw new Error('Invalid email');
-
+exports.loginUser = async ({ email, password }) => {
+  const user = await userModel.findOne({ email });
+  if (!user) throw new Error('Email nao encontrado'); 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   if (!isPasswordCorrect) throw new Error('Invalid password');
 
