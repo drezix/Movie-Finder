@@ -2,7 +2,6 @@ const Movie = require('../models/movieModel');
 
 exports.insertMovie = async ({ userId, title, director, year, genre, description }) => {
     const existingMovie = await Movie.findOne({
-        userId,
         title,
         director,
         year,
