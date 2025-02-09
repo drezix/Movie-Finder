@@ -6,15 +6,16 @@ import { CircularProgress } from "@mui/material";
 import "./HomePage.css";
 import logo from "../assets/moviefinderlogo.png";
 import RegisterModal from "../components/RegisterModal";
-import LoginModal from "../components/LoginModal"; // Modal de login
-import AddMovieModal from "../components/AddMovieModal";  // Modal de Adicionar Filme
-import '../components/modal.css'; // Adicione o caminho correto para o seu arquivo CSS
+import LoginModal from "../components/LoginModal";
+import AddMovieModal from "../components/AddMovieModal";
+import '../components/modal.css'; 
 
 const HomePage = () => {
-  const { movies, loading } = useContext(MovieContext);
+  const { movies, loading, favorites, removeMovieFromFavorites } = useContext(MovieContext);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);  // Estado para abrir o modal de adicionar filme
+  const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -44,10 +45,8 @@ const HomePage = () => {
             <>
               <span className="username">Olá, {user}!</span>
               <button onClick={handleLogout} className="auth-button">Sair</button>
-              {/* Botão de Inserir Filmes Favoritos */}
               <button onClick={() => setIsAddMovieOpen(true)} className="auth-button add-movie-button">Inserir Filmes Favoritos</button>
-              {/* Botão de Favoritos */}
-              <button onClick={() => {/* Aqui você pode adicionar a lógica para mostrar os filmes favoritos */}} className="auth-button favorites-button">Favoritos</button>
+              <button onClick={() => setIsFavoritesOpen(true)} className="auth-button favorites-button">Favoritos</button>
             </>
           ) : (
             <>
@@ -66,8 +65,33 @@ const HomePage = () => {
       {/* Modais */}
       {isRegisterOpen && <RegisterModal onClose={() => setIsRegisterOpen(false)} />}
       {isLoginOpen && <LoginModal onClose={() => setIsLoginOpen(false)} />}
-      {/* Modal de Adicionar Filme */}
       {isAddMovieOpen && <AddMovieModal onClose={() => setIsAddMovieOpen(false)} />}
+      
+      {/* Modal de Favoritos */}
+      {isFavoritesOpen && (
+        <div className="favorites-modal-overlay">
+          <div className="favorites-modal">
+            <h2>Filmes Favoritos</h2>
+            {favorites.length === 0 ? (
+              <p>Você ainda não tem filmes favoritos.</p>
+            ) : (
+              favorites.map((movie) => (
+                <div key={movie.id} className="favorite-movie-card">
+                  <MovieCard movie={movie} />
+                  {/* Botão de Remover */}
+                  <button 
+                    onClick={() => removeMovieFromFavorites(movie.id)} 
+                    className="remove-button"
+                  >
+                    X
+                  </button>
+                </div>
+              ))
+            )}
+            <button onClick={() => setIsFavoritesOpen(false)} className="close-button">Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

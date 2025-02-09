@@ -83,3 +83,115 @@ textarea:focus, input:focus {
   outline: 2px solid #007bff33;
   border-color: #007bff;
 }
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 80%;
+  overflow-y: auto;
+}
+
+/* Close Button */
+.close-button {
+  background-color: #ff5c5c;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Filme */
+li {
+  margin-bottom: 15px;
+}
+
+h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+
+.favorites-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Certifique-se de que o modal está acima de outros elementos */
+}
+
+/* Estilo do modal */
+.favorites-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px; /* Limita a largura do modal */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+}
+
+.favorites-modal h2 {
+  margin-bottom: 20px;
+}
+
+.favorites-modal .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.favorites-modal .close-button:hover {
+  background-color: darkred;
+}
+
+.favorites-modal p {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+
+
+.remove-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.remove-button:hover {
+  background-color: darkred;
+}
