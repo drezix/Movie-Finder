@@ -44,8 +44,10 @@ const HomePage = () => {
             <>
               <span className="username">Olá, {user}!</span>
               <button onClick={handleLogout} className="auth-button">Sair</button>
-              {/* Mostrar o botão de adicionar filme apenas se o usuário estiver logado */}
+              {/* Botão de Inserir Filmes Favoritos */}
               <button onClick={() => setIsAddMovieOpen(true)} className="auth-button add-movie-button">Inserir Filmes Favoritos</button>
+              {/* Botão de Favoritos */}
+              <button onClick={() => {/* Aqui você pode adicionar a lógica para mostrar os filmes favoritos */}} className="auth-button favorites-button">Favoritos</button>
             </>
           ) : (
             <>

@@ -33,6 +33,25 @@
     transition: background 0.3s ease;
   }
   
+
+/* Estilos para o botão de Favoritos */
+.auth-button.favorites-button {
+  background-color:rgb(12, 170, 175); /* Cor para o botão de Favoritos */
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-button.favorites-button:hover {
+  background-color: #e67e22; /* Cor para o hover */
+  transform: translateY(-1px);
+}
+
+
   .auth-button:hover {
     background-color: #0056b3; /* Azul mais escuro */
   }
