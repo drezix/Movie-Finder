@@ -17,14 +17,21 @@ const AddMovieModal = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
+    console.log("Token:", token);
+    if (!token) {
+      console.error("Token ausente!");
+      return;
+    }
+
     try {
-      const response = await axios.post("http://localhost:5000/movies/add", formData, {
+      const response = await axios.post("http://localhost:5000/movies/insert", formData, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       console.log("Filme inserido:", response.data);
-      onClose();  // Fecha o modal após sucesso
+      onClose(); 
     } catch (err) {
       console.error("Erro ao inserir filme:", err);
     }
