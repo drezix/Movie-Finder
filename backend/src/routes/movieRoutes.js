@@ -7,5 +7,6 @@ router.use(requireAuth);
 
 // POST /movies
 router.post('/insert', movieController.insert);
+router.get('/allmovies', movieController.getAll);
 
 module.exports = router;
