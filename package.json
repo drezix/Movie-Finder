@@ -4,8 +4,8 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm start --prefix frontend\"",
-    "server": "nodemon -e js backend/src/bin/www",
+    "start": "concurrently \"npm run start:backend\" \"npx open-cli https://moviefinder.local:8443\"",
+    "start:backend": "nodemon -e js backend/src/bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/drezix/Movie-Finder#readme",
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "open-cli": "^8.0.0"
   },
   "dependencies": {
     "movie-finder": "file:",
