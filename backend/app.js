@@ -1,4 +1,5 @@
 const connectDB = require('./src/config/db');
+const sanitizedMiddleware = require('./src/middlewares/sanitizedMiddleware');
 const authRoutes = require('./src/routes/authRoutes');
 const movieRoutes = require('./src/routes/movieRoutes');
 require('dotenv').config({ path: './backend/.env' });
@@ -26,6 +27,9 @@ app.use(cors({
 
 
 app.use(express.json());
+
+//--------------------------------------------SANITIZE-------------------------------------------
+app.use(sanitizedMiddleware);
 
 //--------------------------------------------AUTH-----------------------------------------------
 app.use('/auth', authRoutes);
