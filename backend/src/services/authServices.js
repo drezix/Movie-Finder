@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const RevokedToken = require('../models/revokedTokenModel');
 
 dotenv.config();
 
@@ -25,4 +26,9 @@ exports.loginUser = async ({ email, password }) => {
 
   return { user, token };
 }
+
+exports.logoutUser = async (token) => {
+  const revokedToken = new RevokedToken({ token });
+  await revokedToken.save();
+};
 
