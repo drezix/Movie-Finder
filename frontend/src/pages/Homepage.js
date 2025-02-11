@@ -8,10 +8,11 @@ import logo from "../assets/moviefinderlogo.png";
 import RegisterModal from "../components/RegisterModal";
 import LoginModal from "../components/LoginModal";
 import AddMovieModal from "../components/AddMovieModal";
+import FavoriteMoviesModal from "../components/FavoriteMoviesModal"; // Corrigido aqui
 import '../components/modal.css'; 
 
 const HomePage = () => {
-  const { movies, loading, favorites, removeMovieFromFavorites } = useContext(MovieContext);
+  const { movies, loading, favorites, addMovieToFavorites, removeMovieFromFavorites } = useContext(MovieContext);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isAddMovieOpen, setIsAddMovieOpen] = useState(false);
@@ -69,28 +70,7 @@ const HomePage = () => {
       
       {/* Modal de Favoritos */}
       {isFavoritesOpen && (
-        <div className="favorites-modal-overlay">
-          <div className="favorites-modal">
-            <h2>Filmes Favoritos</h2>
-            {favorites.length === 0 ? (
-              <p>Você ainda não tem filmes favoritos.</p>
-            ) : (
-              favorites.map((movie) => (
-                <div key={movie.id} className="favorite-movie-card">
-                  <MovieCard movie={movie} />
-                  {/* Botão de Remover */}
-                  <button 
-                    onClick={() => removeMovieFromFavorites(movie.id)} 
-                    className="remove-button"
-                  >
-                    X
-                  </button>
-                </div>
-              ))
-            )}
-            <button onClick={() => setIsFavoritesOpen(false)} className="close-button">Fechar</button>
-          </div>
-        </div>
+        <FavoriteMoviesModal onClose={() => setIsFavoritesOpen(false)} />
       )}
     </div>
   );

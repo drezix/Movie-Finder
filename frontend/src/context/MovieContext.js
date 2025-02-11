@@ -4,19 +4,23 @@ export const MovieContext = createContext();
 
 export const MovieProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
-  const [favorites, setFavorites] = useState([]); // Lista de favoritos
+  const [favorites, setFavorites] = useState([]); 
   const [loading, setLoading] = useState(false);
 
-  // Função para adicionar filme aos favoritos
+  
   const addMovieToFavorites = (movie) => {
+    console.log("Adicionando filme aos favoritos:", movie); 
     setFavorites((prevFavorites) => [...prevFavorites, movie]);
   };
 
-  // Função para remover filme dos favoritos
+
   const removeMovieFromFavorites = (movieId) => {
-    setFavorites((prevFavorites) =>
-      prevFavorites.filter((movie) => movie.id !== movieId) // Remove o filme pelo id
-    );
+    console.log("Removendo filme com ID:", movieId); 
+    setFavorites((prevFavorites) => {
+      const newFavorites = prevFavorites.filter((movie) => movie.id !== movieId);
+      console.log("Novos favoritos após remoção:", newFavorites); 
+      return newFavorites;
+    });
   };
 
   const value = useMemo(() => ({

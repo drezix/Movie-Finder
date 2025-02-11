@@ -1,8 +1,9 @@
-// AddMovieModal.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { MovieContext } from "../context/MovieContext"; // Importe o contexto
 
 const AddMovieModal = ({ onClose }) => {
+  const { addMovieToFavorites } = useContext(MovieContext); // Acesse a função do contexto
   const [formData, setFormData] = useState({
     title: "",
     director: "",
@@ -18,7 +19,6 @@ const AddMovieModal = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    console.log("Token:", token);
     if (!token) {
       console.error("Token ausente!");
       return;
@@ -31,6 +31,10 @@ const AddMovieModal = ({ onClose }) => {
         },
       });
       console.log("Filme inserido:", response.data);
+      
+      // Adiciona o filme aos favoritos no contexto
+      addMovieToFavorites(response.data);
+
       onClose(); 
     } catch (err) {
       console.error("Erro ao inserir filme:", err);
