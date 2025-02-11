@@ -6,10 +6,11 @@ require('dotenv').config({ path: './backend/.env' });
 
 const fs = require('fs');
 const privateKey = fs.readFileSync('C:/Users/Fasano/Desktop/https estranho/moviefinder.local-key.pem', 'utf8');
-const certificate = fs.readFileSync('C:/Users/Fasano/Desktop/https estranho/moviefinder.local.pem', 'utf8');
+const certificate = fs.readFileSync('C:/Users/Fasano/Desktop/https estranho/moviefinder.local.pem', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 const express = require('express');
+const compression = require('compression'); 
 const app = express();
 
 connectDB();
@@ -17,13 +18,13 @@ connectDB();
 const cors = require('cors'); 
 app.use(cors());  
 
-
 app.use(cors({
   origin: 'https://moviefinder.local:8443', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+app.use(compression()); 
 
 app.use(express.json());
 

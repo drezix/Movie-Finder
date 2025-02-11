@@ -23,6 +23,7 @@
     "open-cli": "^8.0.0"
   },
   "dependencies": {
+    "compression": "^1.8.0",
     "movie-finder": "file:",
     "nodemon": "^3.1.9"
   }
