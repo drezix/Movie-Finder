@@ -23,7 +23,9 @@
     "open-cli": "^8.0.0"
   },
   "dependencies": {
+    "express-winston": "^4.2.0",
     "movie-finder": "file:",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "winston": "^3.17.0"
   }
 }

@@ -13,6 +13,21 @@ const credentials = {key: privateKey, cert: certificate};
 const express = require('express');
 const app = express();
 
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      ),
+    }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
+
 connectDB();
 
 const cors = require('cors'); 
@@ -27,6 +42,11 @@ app.use(cors({
 
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  logger.info(`HTTP ${req.method} ${req.url}`);
+  next();
+});
 
 //--------------------------------------------SANITIZE-------------------------------------------
 app.use(sanitizedMiddleware);
