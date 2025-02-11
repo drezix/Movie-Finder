@@ -5,9 +5,8 @@ const movieRoutes = require('./src/routes/movieRoutes');
 require('dotenv').config({ path: './backend/.env' });
 
 const fs = require('fs');
-const privateKey = fs.readFileSync('C:/code/FullStack/moviefinder.local-key.pem', 'utf8');
-const certificate = fs.readFileSync('C:/code/FullStack/moviefinder.local.pem', 'utf8');
-
+const privateKey = fs.readFileSync('C:/Users/Fasano/Desktop/https estranho/moviefinder.local-key.pem', 'utf8');
+const certificate = fs.readFileSync('C:/Users/Fasano/Desktop/https estranho/moviefinder.local.pem', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 const express = require('express');
