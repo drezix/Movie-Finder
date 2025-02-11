@@ -13,6 +13,21 @@ const express = require('express');
 const compression = require('compression'); 
 const app = express();
 
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      ),
+    }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
+
 connectDB();
 
 const cors = require('cors'); 
@@ -27,6 +42,11 @@ app.use(cors({
 app.use(compression()); 
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  logger.info(`HTTP ${req.method} ${req.url}`);
+  next();
+});
 
 //--------------------------------------------SANITIZE-------------------------------------------
 app.use(sanitizedMiddleware);
