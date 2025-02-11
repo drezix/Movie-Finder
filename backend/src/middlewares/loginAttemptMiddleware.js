@@ -1,7 +1,7 @@
 const LoginAttempt = require('../models/loginAttemptModel');
 const moment = require('moment');
 
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 10;
 const BLOCK_TIME = 15;  // minutes
 
 const checkLoginAttempts = async (req, res, next) => {
