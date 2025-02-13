@@ -7,6 +7,9 @@ exports.insert = async (req, res) => {
         const movieData = { ...req.body, userId };
 
         const movie = await movieService.insertMovie(movieData);
+
+        const cacheKey = `movies:${userId}`;
+        await redisClient.del(cacheKey);
         
         return res.status(201).json(movie);
     } catch (error) {
@@ -32,5 +35,28 @@ exports.getAll = async (req, res) => {
         return res.status(200).json(movies);
     } catch (error) {
         return res.status(500).json({ message: 'Error getting movies', error: error.message });
+    }
+}
+
+exports.remove = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const movieId = req.params.id;
+
+        const mongoose = require('mongoose');
+        if (!mongoose.Types.ObjectId.isValid(movieId)) {
+            return res.status(400).json({ message: 'Invalid movie ID format' });
+        }
+
+        const deletedMovie = await movieService.deleteMovie(
+            new mongoose.Types.ObjectId(String(movieId)), 
+            new mongoose.Types.ObjectId(String(userId))
+        );
+        const cacheKey = `movies:${userId}`;
+        await redisClient.del(cacheKey);
+
+        return res.status(200).json(deletedMovie);
+    } catch (error) {
+        return res.status(500).json({ message: 'Error removing movie', error: error.message });
     }
 }
