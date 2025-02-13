@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { MovieContext } from "../context/MovieContext"; // Importe o contexto
+import { MovieContext } from "../context/MovieContext"; 
 
 const AddMovieModal = ({ onClose }) => {
-  const { addMovieToFavorites } = useContext(MovieContext); // Acesse a função do contexto
-  const [formData, setFormData] = useState({
+  const { addMovieToFavorites } = useContext(MovieContext); 
+  const [ formData, setFormData ] = useState({
     title: "",
     director: "",
     year: "",
@@ -32,7 +32,6 @@ const AddMovieModal = ({ onClose }) => {
       });
       console.log("Filme inserido:", response.data);
       
-      // Adiciona o filme aos favoritos no contexto
       addMovieToFavorites(response.data);
 
       onClose(); 
@@ -67,7 +66,19 @@ const AddMovieModal = ({ onClose }) => {
             name="year"
             placeholder="Ano"
             value={formData.year}
-            onChange={handleChange}
+            onChange={(e) => { const numericValue = e.target.value.replace(/[^0-9]/g, '');
+              setFormData({ ...formData, year: numericValue });
+            }}
+            onKeyDown={(e) => {
+              // Prevent non-numeric key input
+              if (!/[0-9]/.test(e.key) && 
+                  e.key !== 'Backspace' && 
+                  e.key !== 'Delete' && 
+                  e.key !== 'ArrowLeft' && 
+                  e.key !== 'ArrowRight') {
+                e.preventDefault();
+              }
+            }}
             required
           />
           <input
