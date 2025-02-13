@@ -1,36 +1,72 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import { MovieContext } from "../context/MovieContext";
 
 const FavoriteMoviesModal = ({ onClose }) => {
-  const { favorites, removeMovieFromFavorites } = useContext(MovieContext); // Acesso ao contexto
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { removeMovieFromFavorites } = useContext(MovieContext);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setError("User not authenticated");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:5000/movies/allmovies", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setMovies(response.data);
+      } catch (err) {
+        setError(err.response?.data?.message || "Error fetching movies");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, []);
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>Meus Filmes Favoritos</h2>
-        {favorites.length > 0 ? (
+        {loading ? (
+          <p>Carregando...</p>
+        ) : error ? (
+          <p className="error-message">{error}</p>
+        ) : movies.length > 0 ? (
           <div>
-            {favorites.map((movie) => {
-              console.log("Filme na lista de favoritos:", movie); // Log do filme
-              return (
-                <div key={movie.id} className="favorite-movie-card">
-                  <div>
-                    <h3>{movie.title}</h3>
-                    <p><strong>Gênero:</strong> {movie.genre}</p>
-                    <p><strong>Ano:</strong> {movie.year}</p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      console.log("Clicou para remover:", movie.id); // Log do ID que está sendo removido
-                      removeMovieFromFavorites(movie.id);
-                    }} // Passando o id do filme
-                    className="remove-button"
-                  >
-                    X
-                  </button>
+            {movies.map((movie) => (
+              <div key={movie._id} className="favorite-movie-card">
+                <div>
+                  <h3>{movie.title}</h3>
+                  <p><strong>Gênero:</strong> {movie.genre}</p>
+                  <p><strong>Ano:</strong> {movie.year}</p>
                 </div>
-              );
-            })}
+                <button
+                    onClick={async () => {
+                        try {
+                            await removeMovieFromFavorites(movie._id);
+                            const updatedMovies = movies.filter(m => m._id !== movie._id);
+                            setMovies(updatedMovies);
+                        } catch (error) {
+                            console.error("Failed to delete:", error);
+                        }
+                    }}
+                    className="remove-button"
+                >
+                    X
+                </button>
+              </div>
+            ))}
           </div>
         ) : (
           <p>Você ainda não tem filmes favoritos.</p>
