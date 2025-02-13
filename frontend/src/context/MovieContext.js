@@ -1,4 +1,5 @@
 import React, { createContext, useState, useMemo } from 'react';
+import axios from "axios";
 
 export const MovieContext = createContext();
 
@@ -14,14 +15,20 @@ export const MovieProvider = ({ children }) => {
   };
 
 
-  const removeMovieFromFavorites = (movieId) => {
-    console.log("Removendo filme com ID:", movieId); 
-    setFavorites((prevFavorites) => {
-      const newFavorites = prevFavorites.filter((movie) => movie.id !== movieId);
-      console.log("Novos favoritos após remoção:", newFavorites); 
-      return newFavorites;
-    });
-  };
+  const removeMovieFromFavorites = async (movieId) => {
+    try {
+        const token = localStorage.getItem("token");
+        await axios.delete(`http://localhost:5000/movies/${movieId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        
+        setFavorites(prev => prev.filter(movie => movie.id !== movieId));
+    } catch (err) {
+        console.error("Delete error:", err);
+    }
+};
 
   const value = useMemo(() => ({
     movies, setMovies, loading, setLoading, favorites, addMovieToFavorites, removeMovieFromFavorites
