@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import { MovieContext } from "../context/MovieContext";
 import SearchBar from "../components/SearchBar";
 import MovieCard from "../components/MovieCard";
@@ -8,7 +9,7 @@ import logo from "../assets/moviefinderlogo.png";
 import RegisterModal from "../components/RegisterModal";
 import LoginModal from "../components/LoginModal";
 import AddMovieModal from "../components/AddMovieModal";
-import FavoriteMoviesModal from "../components/FavoriteMoviesModal"; // Corrigido aqui
+import FavoriteMoviesModal from "../components/FavoriteMoviesModal"; 
 import '../components/modal.css'; 
 
 const HomePage = () => {
@@ -26,11 +27,26 @@ const HomePage = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    setUser(null);
-    window.location.reload();
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      if (token) {
+        await axios.post(
+          "http://localhost:5000/auth/logout",
+          null,
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+      }
+    } catch (err) {
+      console.error("Erro ao deslogar:", err);
+    } finally {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      setUser(null);
+      window.location.reload();
+    }
   };
 
   return (
